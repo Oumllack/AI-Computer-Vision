@@ -3,7 +3,8 @@ import torch
 import torchvision.transforms as transforms
 import numpy as np
 from PIL import Image
-from model import load_model
+from model import load_model, create_model
+import os
 
 # Titre de l'application
 st.title("Classification d'Images CIFAR-10")
@@ -11,7 +12,14 @@ st.title("Classification d'Images CIFAR-10")
 # Charger le modèle
 @st.cache_resource
 def load_cached_model():
-    model = load_model()
+    try:
+        model = load_model()
+    except FileNotFoundError:
+        st.warning("Modèle non trouvé. Création d'un nouveau modèle...")
+        model = create_model()
+        # Sauvegarder le modèle
+        os.makedirs('./models', exist_ok=True)
+        torch.save(model.state_dict(), './models/cifar10_cnn.pt')
     model.eval()
     return model
 
