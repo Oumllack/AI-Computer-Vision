@@ -155,13 +155,18 @@ classes = {
 @st.cache_resource
 def load_cached_model():
     try:
+        st.info("Tentative de chargement du modèle existant...")
         model = load_model()
+        st.success("Modèle chargé avec succès !")
     except FileNotFoundError:
         st.warning("Modèle non trouvé. Création d'un nouveau modèle...")
         # Créer le dossier models s'il n'existe pas
         os.makedirs('./models', exist_ok=True)
+        st.info("Création d'un nouveau modèle...")
         model = create_model()
+        st.info("Sauvegarde du nouveau modèle...")
         torch.save(model.state_dict(), './models/cifar10_cnn.pt')
+        st.success("Nouveau modèle créé et sauvegardé avec succès !")
     model.eval()
     return model
 
