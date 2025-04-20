@@ -33,5 +33,5 @@ ENV/
 # Project specific
 data/
 # models/  # Commenté pour inclure le modèle
-*.pt
+# *.pt  # Commenté pour inclure le modèle entraîné
 .DS_Store 
