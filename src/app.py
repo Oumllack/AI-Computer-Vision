@@ -156,34 +156,15 @@ classes = {
 @st.cache_resource
 def load_cached_model():
     try:
-        st.info("Tentative de chargement du modèle existant...")
-        # Vérifier si le fichier existe
-        if not os.path.exists('./models/cifar10_cnn.pt'):
-            st.error(f"Le fichier du modèle n'existe pas dans {os.path.abspath('./models/cifar10_cnn.pt')}")
-            raise FileNotFoundError
-            
-        # Afficher la taille du fichier
-        file_size = os.path.getsize('./models/cifar10_cnn.pt') / (1024 * 1024)  # Taille en MB
-        st.info(f"Taille du fichier modèle : {file_size:.2f} MB")
-        
         model = load_model()
-        
-        # Vérifier l'état du modèle
-        st.info("État du modèle :")
-        st.info(f"- Mode : {'train' if model.training else 'eval'}")
-        st.info(f"- Nombre de paramètres : {sum(p.numel() for p in model.parameters())}")
-        st.success("Modèle chargé avec succès !")
-        
     except Exception as e:
-        st.error(f"Erreur lors du chargement du modèle : {str(e)}")
-        st.warning("Création d'un nouveau modèle simple...")
+        st.warning("Création d'un nouveau modèle...")
         os.makedirs('./models', exist_ok=True)
         model = create_model()
         for m in model.modules():
             if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
                 nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
         torch.save(model.state_dict(), './models/cifar10_cnn.pt')
-        st.success("Nouveau modèle créé et sauvegardé avec succès !")
     model.eval()
     return model
 
