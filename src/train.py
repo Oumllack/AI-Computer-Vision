@@ -102,54 +102,56 @@ class ImprovedCNN(nn.Module):
         x = self.fc2(x)
         return x
 
-model = ImprovedCNN().to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
-scheduler = ReduceLROnPlateau(optimizer, 'max', patience=5, factor=0.5, verbose=True)
-
-# Entraînement
-print("Début de l'entraînement...")
-best_accuracy = 0.0
-
-for epoch in range(50):  # 50 époques
-    model.train()
-    running_loss = 0.0
-    for i, data in enumerate(trainloader, 0):
-        inputs, labels = data[0].to(device), data[1].to(device)
-        
-        optimizer.zero_grad()
-        outputs = model(inputs)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-        
-        running_loss += loss.item()
-        if i % 100 == 99:
-            print(f'[Epoch {epoch + 1}, Batch {i + 1}] loss: {running_loss / 100:.3f}')
-            running_loss = 0.0
-
-    # Évaluation après chaque époque
-    model.eval()
-    correct = 0
-    total = 0
-    with torch.no_grad():
-        for data in testloader:
-            images, labels = data[0].to(device), data[1].to(device)
-            outputs = model(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-
-    accuracy = 100 * correct / total
-    print(f'Précision sur le jeu de test à l\'époque {epoch + 1}: {accuracy:.2f}%')
+def train_model(model, epochs=5):  # Réduit à 5 époques pour Streamlit Cloud
+    model = model.to(device)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
     
-    # Ajuster le learning rate
-    scheduler.step(accuracy)
-    
-    # Sauvegarder le meilleur modèle
-    if accuracy > best_accuracy:
-        best_accuracy = accuracy
-        torch.save(model.state_dict(), './models/cifar10_cnn.pt')
-        print(f'Nouvelle meilleure précision : {best_accuracy:.2f}%')
+    print("Début de l'entraînement...")
+    best_accuracy = 0.0
 
-print(f'Meilleure précision obtenue : {best_accuracy:.2f}%') 
+    for epoch in range(epochs):
+        model.train()
+        running_loss = 0.0
+        for i, data in enumerate(trainloader, 0):
+            inputs, labels = data[0].to(device), data[1].to(device)
+            
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+            
+            running_loss += loss.item()
+            if i % 100 == 99:
+                print(f'[Epoch {epoch + 1}, Batch {i + 1}] loss: {running_loss / 100:.3f}')
+                running_loss = 0.0
+
+        # Évaluation après chaque époque
+        model.eval()
+        correct = 0
+        total = 0
+        with torch.no_grad():
+            for data in testloader:
+                images, labels = data[0].to(device), data[1].to(device)
+                outputs = model(images)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+        accuracy = 100 * correct / total
+        print(f'Précision sur le jeu de test à l\'époque {epoch + 1}: {accuracy:.2f}%')
+        
+        # Sauvegarder le meilleur modèle
+        if accuracy > best_accuracy:
+            best_accuracy = accuracy
+            torch.save(model.state_dict(), './models/cifar10_cnn.pt')
+            print(f'Nouvelle meilleure précision : {best_accuracy:.2f}%')
+
+    print(f'Meilleure précision obtenue : {best_accuracy:.2f}%')
+    return model
+
+# Si le script est exécuté directement
+if __name__ == '__main__':
+    model = ImprovedCNN()
+    train_model(model) 
