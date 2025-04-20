@@ -21,45 +21,42 @@ st.markdown("""
     <style>
     .main {
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 0;
     }
     .stApp {
-        max-width: 1400px;
+        max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 1rem;
     }
     .title {
         color: #2c3e50;
         text-align: center;
-        font-size: 3em;
+        font-size: 2.5em;
         margin-bottom: 0.5em;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        animation: fadeIn 1s ease-in;
     }
     .subtitle {
         color: #34495e;
         text-align: center;
-        font-size: 1.4em;
-        margin-bottom: 2em;
-        animation: slideIn 1s ease-out;
+        font-size: 1.2em;
+        margin-bottom: 1em;
     }
     .upload-section {
         background-color: rgba(255, 255, 255, 0.9);
-        padding: 2.5em;
+        padding: 1.5em;
         border-radius: 15px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        margin-bottom: 2em;
+        margin-bottom: 1em;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        animation: slideUp 0.5s ease-out;
     }
     .result-section {
         background-color: rgba(255, 255, 255, 0.9);
-        padding: 2.5em;
+        padding: 1.5em;
         border-radius: 15px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        animation: slideUp 0.5s ease-out;
     }
     .confidence-bar {
         height: 25px;
@@ -88,9 +85,9 @@ st.markdown("""
     }
     .info-card {
         background-color: rgba(255, 255, 255, 0.9);
-        padding: 1.5em;
+        padding: 1em;
         border-radius: 12px;
-        margin: 1em 0;
+        margin: 0.5em 0;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
     }
@@ -123,7 +120,7 @@ st.markdown("""
     .stFileUploader > div {
         border: 2px dashed #3498db;
         border-radius: 12px;
-        padding: 2em;
+        padding: 1.5em;
         background-color: rgba(255, 255, 255, 0.5);
         transition: all 0.3s ease;
     }
@@ -222,8 +219,8 @@ if uploaded_file is not None:
             color = "#2ecc71" if i == predicted_class else "#3498db"
             
             st.markdown(f"""
-                <div style="margin-bottom: 15px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <div style="margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                         <span class="class-label">{classes[list(classes.keys())[i]]} {list(classes.keys())[i].capitalize()}</span>
                         <span class="probability-value">{prob_value:.2f}%</span>
                     </div>
