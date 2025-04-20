@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from model import ImprovedCNN, load_model, create_model
 import os
+import torch.nn as nn
 
 # Configuration de la page
 st.set_page_config(
@@ -159,20 +160,18 @@ def load_cached_model():
         model = load_model()
         st.success("Modèle chargé avec succès !")
     except FileNotFoundError:
-        st.warning("Modèle non trouvé. Création et entraînement d'un nouveau modèle...")
+        st.warning("Modèle non trouvé. Création d'un nouveau modèle simple...")
         # Créer le dossier models s'il n'existe pas
         os.makedirs('./models', exist_ok=True)
         st.info("Création d'un nouveau modèle...")
         model = create_model()
-        
-        # Entraîner le modèle
-        st.info("Entraînement du modèle en cours...")
-        from train import train_model
-        model = train_model(model)
-        
-        st.info("Sauvegarde du modèle entraîné...")
+        # Initialiser les poids avec des valeurs aléatoires
+        for m in model.modules():
+            if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+        st.info("Sauvegarde du modèle...")
         torch.save(model.state_dict(), './models/cifar10_cnn.pt')
-        st.success("Nouveau modèle créé, entraîné et sauvegardé avec succès !")
+        st.success("Nouveau modèle créé et sauvegardé avec succès !")
     model.eval()
     return model
 
