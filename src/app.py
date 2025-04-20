@@ -159,14 +159,20 @@ def load_cached_model():
         model = load_model()
         st.success("Modèle chargé avec succès !")
     except FileNotFoundError:
-        st.warning("Modèle non trouvé. Création d'un nouveau modèle...")
+        st.warning("Modèle non trouvé. Création et entraînement d'un nouveau modèle...")
         # Créer le dossier models s'il n'existe pas
         os.makedirs('./models', exist_ok=True)
         st.info("Création d'un nouveau modèle...")
         model = create_model()
-        st.info("Sauvegarde du nouveau modèle...")
+        
+        # Entraîner le modèle
+        st.info("Entraînement du modèle en cours...")
+        from train import train_model
+        model = train_model(model)
+        
+        st.info("Sauvegarde du modèle entraîné...")
         torch.save(model.state_dict(), './models/cifar10_cnn.pt')
-        st.success("Nouveau modèle créé et sauvegardé avec succès !")
+        st.success("Nouveau modèle créé, entraîné et sauvegardé avec succès !")
     model.eval()
     return model
 
