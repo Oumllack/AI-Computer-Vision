@@ -20,7 +20,7 @@ st.set_page_config(
 st.markdown("""
     <style>
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         padding: 0;
     }
     .stApp {
@@ -29,54 +29,54 @@ st.markdown("""
         padding: 2rem;
     }
     .title {
-        color: #ffffff;
+        color: #2c3e50;
         text-align: center;
         font-size: 3em;
         margin-bottom: 0.5em;
-        text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         animation: fadeInDown 1s ease;
     }
     .subtitle {
-        color: rgba(255,255,255,0.9);
+        color: #34495e;
         text-align: center;
         font-size: 1.4em;
         margin-bottom: 2em;
         animation: fadeInUp 1s ease;
     }
     .upload-section {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.9);
         padding: 2em;
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         margin-bottom: 2em;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         animation: slideIn 0.5s ease;
     }
     .result-section {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.9);
         padding: 2em;
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         animation: slideIn 0.5s ease;
     }
     .confidence-bar {
         height: 35px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.5);
         border-radius: 20px;
         margin: 15px 0;
         overflow: hidden;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         position: relative;
     }
     .confidence-fill {
         height: 100%;
-        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
         border-radius: 20px;
         transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 0 20px rgba(0, 198, 255, 0.5);
+        box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
         position: relative;
         overflow: hidden;
     }
@@ -89,28 +89,26 @@ st.markdown("""
         bottom: 0;
         background: linear-gradient(90deg, 
             rgba(255,255,255,0) 0%, 
-            rgba(255,255,255,0.3) 50%, 
+            rgba(255,255,255,0.2) 50%, 
             rgba(255,255,255,0) 100%);
         animation: shimmer 2s infinite;
     }
     .class-label {
         font-weight: 600;
-        color: #ffffff;
+        color: #2c3e50;
         font-size: 1.2em;
-        text-shadow: 0 0 10px rgba(255,255,255,0.3);
     }
     .probability-value {
         font-weight: 600;
-        color: #ffffff;
+        color: #2c3e50;
         font-size: 1.2em;
-        text-shadow: 0 0 10px rgba(255,255,255,0.3);
     }
     .info-card {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.9);
         padding: 1.5em;
         border-radius: 20px;
         margin: 1em 0;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         transition: transform 0.3s ease;
@@ -119,16 +117,16 @@ st.markdown("""
         transform: translateY(-5px);
     }
     .stFileUploader > div {
-        border: 2px dashed rgba(255,255,255,0.5);
+        border: 2px dashed #4facfe;
         border-radius: 20px;
         padding: 2em;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.9);
         transition: all 0.3s ease;
     }
     .stFileUploader > div:hover {
-        background: rgba(255, 255, 255, 0.2);
-        border-color: #00c6ff;
-        box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
+        background: rgba(255, 255, 255, 0.95);
+        border-color: #00f2fe;
+        box-shadow: 0 0 20px rgba(79, 172, 254, 0.2);
     }
     @keyframes fadeInDown {
         from {
@@ -165,17 +163,17 @@ st.markdown("""
         100% { transform: translateX(100%); }
     }
     .prediction-card {
-        background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         color: white;
         padding: 2em;
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         animation: pulse 2s infinite;
     }
     @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.4); }
-        70% { box-shadow: 0 0 0 15px rgba(0, 198, 255, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0); }
+        0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.4); }
+        70% { box-shadow: 0 0 0 15px rgba(79, 172, 254, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); }
     }
     </style>
     """, unsafe_allow_html=True)
@@ -265,7 +263,7 @@ if uploaded_file is not None:
         st.markdown("#### 📈 Détail des probabilités")
         for i, prob in enumerate(probabilities):
             prob_value = prob.item() * 100
-            color = "#00c6ff" if i == predicted_class else "#764ba2"
+            color = "#4facfe" if i == predicted_class else "#00f2fe"
             
             st.markdown(f"""
                 <div style="margin-bottom: 20px;">
