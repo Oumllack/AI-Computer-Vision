@@ -82,6 +82,9 @@ def load_model(path='./models/cifar10_cnn.pt'):
     Charge un modèle sauvegardé
     """
     model = ImprovedCNN()
-    model.load_state_dict(torch.load(path))
+    # Charger le modèle sur CPU même s'il a été sauvegardé sur GPU
+    model.load_state_dict(torch.load(path, map_location=torch.device('cpu')))
+    # S'assurer que les poids sont en float32
+    model = model.float()
     model.eval()
     return model 
