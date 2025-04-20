@@ -58,21 +58,6 @@ st.markdown("""
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    .confidence-bar {
-        height: 25px;
-        background-color: #ecf0f1;
-        border-radius: 12px;
-        margin: 8px 0;
-        overflow: hidden;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .confidence-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #3498db, #2ecc71);
-        border-radius: 12px;
-        transition: width 1s ease-in-out;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
     .class-label {
         font-weight: 600;
         color: #2c3e50;
@@ -90,32 +75,6 @@ st.markdown("""
         margin: 0.5em 0;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .prediction-card {
-        background: linear-gradient(135deg, #3498db, #2ecc71);
-        color: white;
-        padding: 1.5em;
-        border-radius: 12px;
-        margin: 1em 0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        animation: pulse 2s infinite;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    @keyframes slideIn {
-        from { transform: translateY(-20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes slideUp {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.02); }
-        100% { transform: scale(1); }
     }
     .stFileUploader > div {
         border: 2px dashed #3498db;
@@ -219,13 +178,10 @@ if uploaded_file is not None:
             color = "#2ecc71" if i == predicted_class else "#3498db"
             
             st.markdown(f"""
-                <div style="margin-bottom: 10px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <div style="margin-bottom: 5px;">
+                    <div style="display: flex; justify-content: space-between;">
                         <span class="class-label">{classes[list(classes.keys())[i]]} {list(classes.keys())[i].capitalize()}</span>
                         <span class="probability-value">{prob_value:.2f}%</span>
-                    </div>
-                    <div class="confidence-bar">
-                        <div class="confidence-fill" style="width: {prob_value}%; background: linear-gradient(90deg, {color}, {color});"></div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
